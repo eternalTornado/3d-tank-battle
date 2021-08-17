@@ -1,0 +1,58 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class MyPlayerMovement : MonoBehaviour
+{
+    public float moveSpeed = 10f;
+    public float rotateSpeed = 100f;
+
+    [Header("Movement KeyCode")]
+    public KeyCode KeyForward = KeyCode.W;
+    public KeyCode KeyBackward = KeyCode.S;
+    public KeyCode KeyLeft = KeyCode.A;
+    public KeyCode KeyRight = KeyCode.D;
+
+    [Space]
+    public KeyboardHandler input;
+    public Mover mover;
+    public Rotator rotator;
+
+    private float horizontal;
+    private float vertical;
+
+    private void Start()
+    {
+        Init();
+    }
+
+    private void Update()
+    {
+        horizontal = Input.GetAxisRaw("Horizontal1");
+        vertical = Input.GetAxisRaw("Vertical1");
+
+        if (Input.anyKey)
+        {
+            input.TriggerAction(input.GetKeyPressed());
+        }
+    }
+
+    public void Init()
+    {
+        //By default. Maybe I would never implement the keybind feature hehe. Who knows
+        input.RegisterAction(KeyCode.W, Move);
+        input.RegisterAction(KeyCode.S, Move);
+        input.RegisterAction(KeyCode.A, Rotate);
+        input.RegisterAction(KeyCode.D, Rotate);
+    }
+
+    private void Move()
+    {
+        mover.SetSpeed(vertical * moveSpeed);
+    }
+
+    private void Rotate()
+    {
+        rotator.Rotate(horizontal * rotateSpeed);
+    }
+}
