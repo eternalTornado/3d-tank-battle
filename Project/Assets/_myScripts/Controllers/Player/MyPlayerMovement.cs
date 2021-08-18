@@ -33,7 +33,10 @@ public class MyPlayerMovement : MonoBehaviour
 
         if (Input.anyKey)
         {
-            input.TriggerAction(input.GetKeyPressed());
+            input.GetKeysPressed().ForEach(k =>
+            {
+                input.TriggerAction(k);
+            });
         }
     }
 

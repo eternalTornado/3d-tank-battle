@@ -30,6 +30,8 @@ public class KeyboardHandler : MonoBehaviour
         dictAction[keyCode]?.Invoke();
     }
 
+    //This one works but only return one key at the time
+    //We should be able to handle multiple inputs at a same time since this is kind of an action game
     public KeyCode GetKeyPressed()
     {
         foreach (var key in listKeys)
@@ -37,5 +39,15 @@ public class KeyboardHandler : MonoBehaviour
                 return key;
 
         return KeyCode.None;
+    }
+
+    public List<KeyCode> GetKeysPressed()
+    {
+        var result = new List<KeyCode>();
+        foreach (var key in listKeys)
+            if (Input.GetKey(key))
+                result.Add(key);
+
+        return result;
     }
 }
