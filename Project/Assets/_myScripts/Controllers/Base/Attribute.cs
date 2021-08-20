@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Attribute : MonoBehaviour, IDie
 {
-    private Health health;
+    public Health health;
 
     // Start is called before the first frame update
     void Start()

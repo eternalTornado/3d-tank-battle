@@ -8,7 +8,8 @@ public class KeyboardHandler : MonoBehaviour
     private Dictionary<KeyCode, Action> dictAction;
 
     private KeyCode[] listKeys;
-    private void Start()
+
+    private void Awake()
     {
         listKeys = (KeyCode[])System.Enum.GetValues(typeof(KeyCode));
         dictAction = new Dictionary<KeyCode, Action>();
@@ -30,8 +31,19 @@ public class KeyboardHandler : MonoBehaviour
         dictAction[keyCode]?.Invoke();
     }
 
+    public bool IsAnyKey()
+    {
+        return Input.anyKey;
+    }
+
+    public bool IsAnyKeyDown()
+    {
+        return Input.anyKeyDown;
+    }
+
     //This one works but only return one key at the time
     //We should be able to handle multiple inputs at a same time since this is kind of an action game
+    //20/8: Ah so I figured we should keep both versions
     public KeyCode GetKeyPressed()
     {
         foreach (var key in listKeys)

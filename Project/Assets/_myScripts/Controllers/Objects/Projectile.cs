@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Base class of projectile
-public abstract class Projectile : MonoBehaviour, IPoolElement
+[System.Serializable]
+public abstract class Projectile : MonoBehaviour
 {
     [HideInInspector] public ProjectileType type { get; set; }
     [HideInInspector] public float lifeTime;
@@ -26,7 +27,7 @@ public abstract class Projectile : MonoBehaviour, IPoolElement
         existTime += Time.deltaTime;
 
         if (existTime >= lifeTime)
-            PoolManager.instance.ReturnProjectileToPool(this);
+            PoolManager.instance.ReturnProjectileToQueue(this);
 
     }
 

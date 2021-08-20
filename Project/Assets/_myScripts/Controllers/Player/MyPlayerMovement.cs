@@ -7,6 +7,7 @@ public class MyPlayerMovement : MonoBehaviour
     public float moveSpeed = 10f;
     public float rotateSpeed = 100f;
 
+    //Move these into scriptable object
     [Header("Movement KeyCode")]
     public KeyCode KeyForward = KeyCode.W;
     public KeyCode KeyBackward = KeyCode.S;

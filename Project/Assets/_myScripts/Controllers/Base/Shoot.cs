@@ -4,7 +4,19 @@ using UnityEngine;
 
 public class Shoot : MonoBehaviour
 {
+    public Transform shootOutput;
+
+    public KeyCode FireKey = KeyCode.Space;
+    public KeyboardHandler input;
+
     private ProjectileType type;
+
+    private PoolManager pool => PoolManager.instance;
+
+    private void Start()
+    {
+        input.RegisterAction(FireKey, DoShoot);
+    }
 
     public void SetProjectile(ProjectileType _type)
     {
@@ -13,6 +25,6 @@ public class Shoot : MonoBehaviour
 
     public void DoShoot()
     {
-        //Maybe get from pool
+        var projectile = PoolManager.instance.GetProjectileByType(type, shootOutput.transform.position, shootOutput.transform.rotation);
     }
 }
