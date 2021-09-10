@@ -15,12 +15,20 @@ public class MyPlayerMovement : MonoBehaviour
     public KeyCode KeyRight = KeyCode.D;
 
     [Space]
-    public KeyboardHandler input;
     public Mover mover;
-    public Rotator rotator;
+
+    private Rotator bodyRotator;
+
+    private KeyboardHandler input;
 
     private float horizontal;
     private float vertical;
+
+    private void Awake()
+    {
+        input = new KeyboardHandler();
+        bodyRotator = new Rotator();
+    }
 
     private void Start()
     {
@@ -48,6 +56,9 @@ public class MyPlayerMovement : MonoBehaviour
         input.RegisterAction(KeyCode.S, Move);
         input.RegisterAction(KeyCode.A, Rotate);
         input.RegisterAction(KeyCode.D, Rotate);
+
+        //Init rotation
+        bodyRotator.SetComponent(this.transform.gameObject);
     }
 
     private void Move()
@@ -57,6 +68,6 @@ public class MyPlayerMovement : MonoBehaviour
 
     private void Rotate()
     {
-        rotator.Rotate(horizontal * rotateSpeed);
+        bodyRotator.Rotate(horizontal * rotateSpeed);
     }
 }

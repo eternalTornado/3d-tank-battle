@@ -4,10 +4,13 @@ using UnityEngine;
 
 //Base class of projectile
 [System.Serializable]
+[RequireComponent(typeof(Collider))]
 public abstract class Projectile : MonoBehaviour
 {
-    [HideInInspector] public ProjectileType type { get; set; }
-    [HideInInspector] public float lifeTime;
+    //Intentionally left public for debug purpose
+    public ProjectileType type { get; set; }
+    public float lifeTime;
+    public Vector3 forwardDirection;
 
     private float existTime;
     public Projectile(ProjectileType _type)
@@ -39,8 +42,23 @@ public abstract class Projectile : MonoBehaviour
         this.transform.localRotation = Quaternion.identity;
         this.transform.localScale = Vector3.one;
     }
+
+    public void SetData(string ownerTag, Vector3 _forward)
+    {
+        this.tag = ownerTag;
+        this.forwardDirection = _forward;
+    }
+
+    public virtual void DoExplode() { }
+
+    public virtual void OnCollisionEnter(Collision collision)
+    {
+        if (this.tag == collision.collider.tag)
+            Physics.IgnoreCollision(this.GetComponent<Collider>(), collision.collider);
+    }
 }
 
+[System.Serializable]
 public enum ProjectileType
 {
     SHELL

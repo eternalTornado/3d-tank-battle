@@ -7,24 +7,26 @@ public class Shoot : MonoBehaviour
     public Transform shootOutput;
 
     public KeyCode FireKey = KeyCode.Space;
-    public KeyboardHandler input;
 
     private ProjectileType type;
+    private string ownerTag;
 
     private PoolManager pool => PoolManager.instance;
 
-    private void Start()
-    {
-        input.RegisterAction(FireKey, DoShoot);
-    }
-
-    public void SetProjectile(ProjectileType _type)
+    public void Init(ProjectileType _type, Transform shootPos)
     {
         type = _type;
+        shootOutput = shootPos;
     }
 
-    public void DoShoot()
+    public void SetOwnerTag(string ownerTag)
     {
-        var projectile = PoolManager.instance.GetProjectileByType(type, shootOutput.transform.position, shootOutput.transform.rotation);
+        this.ownerTag = ownerTag;
+    }
+
+    public void DoShoot(Vector3 gunDirection)
+    {
+        var projectile = pool.GetProjectileByType(type, shootOutput.transform.position, shootOutput.transform.rotation);
+        projectile.SetData(ownerTag, gunDirection);
     }
 }

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class KeyboardHandler : MonoBehaviour
+public class KeyboardHandler
 {
     private Dictionary<KeyCode, Action> dictAction;
 
     private KeyCode[] listKeys;
 
-    private void Awake()
+    public KeyboardHandler()
     {
         listKeys = (KeyCode[])System.Enum.GetValues(typeof(KeyCode));
         dictAction = new Dictionary<KeyCode, Action>();
@@ -53,11 +53,30 @@ public class KeyboardHandler : MonoBehaviour
         return KeyCode.None;
     }
 
+    public KeyCode GetKeyDown()
+    {
+        foreach (var key in listKeys)
+            if (Input.GetKeyDown(key))
+                return key;
+
+        return KeyCode.None;
+    }
+
     public List<KeyCode> GetKeysPressed()
     {
         var result = new List<KeyCode>();
         foreach (var key in listKeys)
             if (Input.GetKey(key))
+                result.Add(key);
+
+        return result;
+    }
+
+    public List<KeyCode> GetKeysDown()
+    {
+        var result = new List<KeyCode>();
+        foreach (var key in listKeys)
+            if (Input.GetKeyDown(key))
                 result.Add(key);
 
         return result;

@@ -5,23 +5,42 @@ using UnityEngine;
 public class Shell : Projectile
 {
     public float flyingSpeed;
+
+    private PoolManager pool => PoolManager.instance;
+
+    private Rigidbody _rigidBody;
+    private Rigidbody Rigidbody
+    {
+        get
+        {
+            if (_rigidBody == null)
+                _rigidBody = this.GetComponent<Rigidbody>();
+
+            return _rigidBody;
+        }
+    }
+
     public Shell(ProjectileType _type, float _speed) : base(_type)
     {
         flyingSpeed = _speed;
     }
 
-    public void Update()
+    private void OnEnable()
     {
         Move();
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        
-    }
-
     private void Move()
     {
-        transform.position += this.transform.forward * flyingSpeed * Time.deltaTime;
+        //transform.position += this.transform.forward * flyingSpeed * Time.deltaTime;
+        Rigidbody.velocity = forwardDirection * flyingSpeed;
+    }
+
+    public override void OnCollisionEnter(Collision collision)
+    {
+        base.OnCollisionEnter(collision);
+
+        //pool.GetShellExplosion(this.transform.position, Quaternion.identity);
+        //pool.ReturnProjectileToQueue(this);
     }
 }
